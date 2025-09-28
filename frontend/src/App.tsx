@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route } from 'react-router';
+import { BrowserRouter, Route, Routes } from 'react-router';
 import { PageAuth } from './Pages/PageAuth';
 import { PageCalendar } from './Pages/PageCalendar';
 
@@ -7,8 +7,10 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <Route path="/" element={<PageAuth/>}/>
-        <Route path="/calendar" element={<PageCalendar/>} />
+        <Routes>
+          <Route path="/" element={<PageAuth/>}/>
+          <Route path="/calendar" element={<PageCalendar/>} />
+        </Routes>
       </div>
     </BrowserRouter>
   );
