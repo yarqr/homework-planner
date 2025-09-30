@@ -1,9 +1,10 @@
 from fastapi import Depends, HTTPException
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
-from backend.database import get_db
+
 from backend import crud
+from backend.database import get_db
 
 # Конфигурация JWT
 SECRET_KEY = "XPPAESH"
@@ -25,7 +26,7 @@ def verify_token(token: str):
 
 async def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     user_id = verify_token(credentials.credentials)
     user = crud.get_user_by_id(db, user_id)

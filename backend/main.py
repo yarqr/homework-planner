@@ -1,11 +1,11 @@
-from fastapi import FastAPI, Depends, HTTPException
-from sqlalchemy.orm import Session
 import uvicorn
+from fastapi import Depends, FastAPI, HTTPException
+from sqlalchemy.orm import Session
 
-from backend.database import get_db, engine, Base
-from backend.auth import get_current_user
-import backend.schemas
 import backend.crud
+import backend.schemas
+from backend.auth import get_current_user
+from backend.database import Base, engine, get_db
 
 # Создаем таблицы
 Base.metadata.create_all(bind=engine)
@@ -14,7 +14,9 @@ app = FastAPI()
 
 
 @app.post("/register")
-async def register(user_data: backend.schemas.UserCreate, db: Session = Depends(get_db)):
+async def register(
+    user_data: backend.schemas.UserCreate, db: Session = Depends(get_db)
+):
     return backend.crud.create_user(db, user_data)
 
 
@@ -25,4 +27,3 @@ async def login(user_data: backend.schemas.UserCreate, db: Session = Depends(get
         raise HTTPException(status_code=401, detail="Wrong login or password")
     # Генерацию JWT токена нужно сделать!!!
     return {"token": "real_jwt_token"}
-
