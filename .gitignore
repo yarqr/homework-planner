@@ -1,2 +1,8 @@
 # PyCharm
 .idea
+
+# Python
+#__pycache__
+
+# Database
+*.db
