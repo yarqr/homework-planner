@@ -4,7 +4,6 @@ from sqlalchemy.orm import Session
 
 import backend.crud
 import backend.schemas
-from backend.auth import get_current_user
 from backend.database import Base, engine, get_db
 
 # Создаем таблицы
