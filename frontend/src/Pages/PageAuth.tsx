@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import { AuthWindow } from "../Components/AuthWindow";
+import { AuthWindow } from "../Components/AuthWindow/AuthWindow";
 
 export const PageAuth = () => {
     let navigate = useNavigate()
