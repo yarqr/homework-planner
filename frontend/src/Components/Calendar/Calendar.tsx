@@ -54,10 +54,9 @@ export const Calendar = () => {
       currMonthDays.unshift({date : null})
     }
 
-    let endDay = monthEnd.getDay();
-    let adjustedEndDay = endDay === 0 ? 0 : 7 - endDay;
+    let endDay = monthEnd.getDay() ? 0 : 7 - monthEnd.getDay();
 
-    for (let i = 0; i < adjustedEndDay; i++) {
+    for (let i = 0; i < endDay; i++) {
       currMonthDays.push({date : null})
     }
 

@@ -29,7 +29,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* Стили для дней из других месяцев (пустые ячейки) */
 .day-card:empty {
     background-color: #f8f9fa;
     border-color: #f1f3f4;
