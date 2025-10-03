@@ -2,9 +2,7 @@ import React, { FC, useState, useEffect } from "react";
 import './Calendar.css';
 
 interface CalendarDay {
-  date: number;
-  isCurrent: boolean;
-  fullDate?: Date;
+  date: Date | null;
 }
 
 enum MonthNames {
@@ -37,9 +35,10 @@ export const Calendar = () => {
     const weekDays = Object.values(WeekDays)
 
     let [currentDate, setDate] = useState(new Date())
+    let [contextMenuElem, setContextMenuElem] = useState<CalendarDay | null>(null)
     let monthStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
     let monthEnd = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
-    let currMonthDays = [];
+    let currMonthDays: CalendarDay[] = [];
 
     let startDay = monthStart.getDay() === 0 ? 6 : monthStart.getDay() - 1;
 
@@ -54,21 +53,36 @@ export const Calendar = () => {
       currMonthDays.unshift({date : null})
     }
 
-    let endDay = monthEnd.getDay() ? 0 : 7 - monthEnd.getDay();
+    let endDay = monthEnd.getDay() === 0 ? 0 : 7 - monthEnd.getDay();
 
     for (let i = 0; i < endDay; i++) {
       currMonthDays.push({date : null})
     }
 
     return (
-        <>
-          <div>{monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}</div>
-          <button onClick={() => setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1))}>назад</button>
-          <button onClick={() => setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1))}>вперед</button>
-          <section className="container">
-            {weekDays.map(el => <div>{el}</div>)}
-            {currMonthDays.map(el => <div className="day-card">{el.date != null ? el.date?.getDate() : "-"}</div>)}
+        <section className="main">
+          <section className="calendar">
+            <div className="date-header">{monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}</div>
+            <button className="switcher" onClick={() => setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1))}>&lt;</button>
+            <button className="switcher" onClick={() => setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1))}>&gt;</button>
+            <section className="container">
+              {weekDays.map(el => <div className="day-header">{el}</div>)}
+              {currMonthDays.map(el => <div onClick={() => setContextMenuElem(el)} className={el.date != null ? "day-card" : "day-card-disabled"}>
+                {el.date != null &&
+                <>
+                  <section>{el.date?.getDate()}</section>
+                </>
+                }
+                </div>)}
+            </section>
           </section>
-        </>
+          {contextMenuElem && 
+            <section className="context">
+              <section>меню</section>
+              <section>{contextMenuElem.date?.getDate()}.{contextMenuElem.date!.getMonth() + 1}.{contextMenuElem.date!.getFullYear()}</section>
+              <button onClick={() => {setContextMenuElem(null)}}>закрыть</button>
+            </section>
+          }
+        </section>
     );
 };
