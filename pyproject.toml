@@ -1,0 +1,15 @@
+[project]
+name = "homework-planner"
+version = "0.1.0"
+description = "Homework planner"
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+api = [
+    "fastapi>=0.118.0",
+    "passlib>=1.7.4",
+    "pydantic[email]>=2.11.9",
+    "sqlalchemy>=2.0.43",
+    "uvicorn>=0.37.0",
+]

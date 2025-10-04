@@ -28,4 +28,4 @@ async def login(user_data: backend.schemas.UserCreate, db: Session = Depends(get
     return {"token": "real_jwt_token"}
 
 
-uvicorn.run(app)
+uvicorn.run(app, host="0.0.0.0")
