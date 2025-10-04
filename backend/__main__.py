@@ -4,7 +4,6 @@ from sqlalchemy.orm import Session
 
 import backend.crud
 import backend.schemas
-from backend.auth import get_current_user
 from backend.database import Base, engine, get_db
 
 # Создаем таблицы
@@ -27,3 +26,6 @@ async def login(user_data: backend.schemas.UserCreate, db: Session = Depends(get
         raise HTTPException(status_code=401, detail="Wrong login or password")
     # Генерацию JWT токена нужно сделать!!!
     return {"token": "real_jwt_token"}
+
+
+uvicorn.run(app, host="0.0.0.0")
