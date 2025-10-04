@@ -1,12 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import { PageAuth } from './Pages/PageAuth';
+import { PageCalendar } from './Pages/PageCalendar';
 
 function App() {
   return (
-    <div className="App">
-      <div>app</div>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<PageAuth/>}/>
+          <Route path="/calendar" element={<PageCalendar/>} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
