@@ -1,6 +1,7 @@
 import React, {FC, useState} from "react";
 import { InputField } from "../../UI/InputField/InputField";
 import axios from "axios";
+import "./AuthWindow.css"
 
 interface Props {
     navigateFunction: () => void
@@ -77,11 +78,19 @@ export const AuthWindow: FC<Props> = ({navigateFunction}) => {
   };
 
   return (
-    <section>
+    <section className="auth-container">
+      <h2 className="auth-title">
+        {!regFormOpen ? 'Вход в систему' : 'Регистрация'}
+      </h2>
       {!regFormOpen ? loginForm() : regForm()}
-      <button onClick={() => sendAuth()}> войти </button>
-      <button onClick={() => setRegFormOpen(!regFormOpen)}> {regFormOpen ? 'назад к входу' : 'зарегистрироваться'} </button>
-
+      <div className="button-container">
+        <button className="primary-button" onClick={() => sendAuth()}>
+          {!regFormOpen ? 'войти' : 'зарегистрироваться'}
+        </button>
+        <button className="secondary-button" onClick={() => setRegFormOpen(!regFormOpen)}>
+          {regFormOpen ? 'назад к входу' : 'зарегистрироваться'}
+        </button>
+      </div>
     </section>
   );
 }

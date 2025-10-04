@@ -1,5 +1,8 @@
 import React, { FC, useState, useEffect } from "react";
 import './Calendar.css';
+import { SwitcherButton } from "../../UI/SwitcherButton/SwitcherButton";
+import { InputField } from "../../UI/InputField/InputField";
+import { n } from "react-router/dist/development/index-react-server-client-BYr9g50r";
 
 interface CalendarDay {
   date: Date | null;
@@ -30,12 +33,13 @@ enum WeekDays {
   SUN = "воскресенье"
 }
 
-export const Calendar = () => {
+export const Calendar : FC = () => {
     const monthNames = Object.values(MonthNames)
     const weekDays = Object.values(WeekDays)
-
+    
     let [currentDate, setDate] = useState(new Date())
     let [contextMenuElem, setContextMenuElem] = useState<CalendarDay | null>(null)
+    let [newTask, setNewTask] = useState<string>("")
     let monthStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
     let monthEnd = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
     let currMonthDays: CalendarDay[] = [];
@@ -63,8 +67,8 @@ export const Calendar = () => {
         <section className="main">
           <section className="calendar">
             <div className="date-header">{monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}</div>
-            <button className="switcher" onClick={() => setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1))}>&lt;</button>
-            <button className="switcher" onClick={() => setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1))}>&gt;</button>
+            <SwitcherButton onClick={() => setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1))} text="&lt;"/>
+            <SwitcherButton onClick={() => setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1))} text="&gt;"/>
             <section className="container">
               {weekDays.map(el => <div className="day-header">{el}</div>)}
               {currMonthDays.map(el => <div onClick={() => setContextMenuElem(el)} className={el.date != null ? "day-card" : "day-card-disabled"}>
@@ -78,9 +82,11 @@ export const Calendar = () => {
           </section>
           {contextMenuElem && 
             <section className="context">
-              <section>меню</section>
-              <section>{contextMenuElem.date?.getDate()}.{contextMenuElem.date!.getMonth() + 1}.{contextMenuElem.date!.getFullYear()}</section>
-              <button onClick={() => {setContextMenuElem(null)}}>закрыть</button>
+              <section className="context-header">меню</section>
+              <section className="context-date">{contextMenuElem.date?.getDate()}.{contextMenuElem.date!.getMonth() + 1}.{contextMenuElem.date!.getFullYear()}</section>
+              <InputField type="text" onChange={(value) => {setNewTask(value)}} label="Добавить задачу" value={newTask}/>
+              <button className="btn2" onClick={() => console.log(newTask)}>Добавить</button>
+              <button className="btn" onClick={() => {setContextMenuElem(null)}}>закрыть</button>
             </section>
           }
         </section>
