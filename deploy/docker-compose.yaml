@@ -5,8 +5,6 @@ services:
     build:
       context: ..
       dockerfile: "deploy/api.Dockerfile"
-    volumes:
-      - "../backend:/app/backend/"
     ports:
       - "8000:8000"
     entrypoint: [ "python", "-m", "backend" ]
