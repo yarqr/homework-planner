@@ -2,6 +2,7 @@ import React, {FC, useState} from "react";
 import { InputField } from "../../UI/InputField/InputField";
 import axios from "axios";
 import "./AuthWindow.css"
+import { base, Endpoints } from "../../Service/axiosService";
 
 interface Props {
     navigateFunction: () => void
@@ -28,8 +29,8 @@ export const AuthWindow: FC<Props> = ({navigateFunction}) => {
 
   const sendAuth = async() => {
     console.log(username, password);
-    // let response = await axios.post(`http://127.0.0.1:8000/api/post/${regFormOpen ? "registation" : "login"}`, 
-    //   {login : username, password : password})
+    let response = await axios.post(base + (regFormOpen ? Endpoints.AUTH_REG : Endpoints.AUTH_LOGIN), 
+      {login : username, password : password})
     navigateFunction();
   }
 

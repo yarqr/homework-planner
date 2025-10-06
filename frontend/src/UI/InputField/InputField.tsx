@@ -15,7 +15,7 @@ export const InputField : FC<Props> = ({type, onChange, label, value}) => {
             <input 
             className="input-field"
             type={type} 
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e) => onChange(e.target.value.replace(/[^A-Za-z0-9_@$]/g, ''))}
             value={value}
             />
     </section>
