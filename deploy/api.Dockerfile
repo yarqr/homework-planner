@@ -16,3 +16,5 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PATH="/app/.venv/bin:$PATH"
 
 COPY --from=base /app/.venv .venv/
+
+COPY backend ./backend
