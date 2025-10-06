@@ -84,7 +84,7 @@ export const Calendar : FC = () => {
             <section className="context">
               <section className="context-header">меню</section>
               <section className="context-date">{contextMenuElem.date?.getDate()}.{contextMenuElem.date!.getMonth() + 1}.{contextMenuElem.date!.getFullYear()}</section>
-              <InputField type="text" onChange={(value) => {setNewTask(value)}} label="Добавить задачу" value={newTask}/>
+              <InputField type="text" onChange={(value) => {setNewTask(value)}} label="Добавить задачу" value={newTask} regex={/$^/}/>
               <button className="btn2" onClick={() => console.log(newTask)}>Добавить</button>
               <button className="btn" onClick={() => {setContextMenuElem(null)}}>закрыть</button>
             </section>

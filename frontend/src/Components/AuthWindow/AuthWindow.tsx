@@ -29,8 +29,8 @@ export const AuthWindow: FC<Props> = ({navigateFunction}) => {
 
   const sendAuth = async() => {
     console.log(username, password);
-    let response = await axios.post(base + (regFormOpen ? Endpoints.AUTH_REG : Endpoints.AUTH_LOGIN), 
-      {login : username, password : password})
+    // let response = await axios.post(base + (regFormOpen ? Endpoints.AUTH_REG : Endpoints.AUTH_LOGIN), 
+    //   {login : username, password : password})
     navigateFunction();
   }
 
@@ -42,12 +42,14 @@ export const AuthWindow: FC<Props> = ({navigateFunction}) => {
           label="Введите имя пользователя"
           value={username}
           onChange={handleUsernameChange}
+          regex={/[^A-Za-z0-9_@$]/g}
         />
         <InputField
           type="password"
           label="Введите пароль"
           value={password}
           onChange={handlePasswordChange}
+          regex={/[^A-Za-z0-9_@$]/g}
         />
       </>
     );
@@ -61,18 +63,21 @@ export const AuthWindow: FC<Props> = ({navigateFunction}) => {
           label="Введите имя пользователя"
           value={username}
           onChange={handleUsernameChange}
+          regex={/[^A-Za-z0-9_@$]/g}
         />
         <InputField
           type="password"
           label="Введите пароль"
           value={password}
           onChange={handlePasswordChange}
+          regex={/[^A-Za-z0-9_@$]/g}
         />
         <InputField
           type="password"
           label="Подтвердите пароль"
           value={confirmPassword}
           onChange={handleConfirmPasswordChange}
+          regex={/[^A-Za-z0-9_@$]/g}
         />
       </>
     );
