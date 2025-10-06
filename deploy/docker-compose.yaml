@@ -10,3 +10,11 @@ services:
     ports:
       - "8000:8000"
     entrypoint: [ "python", "-m", "backend" ]
+  frontend:
+    restart: "always"
+    build:
+      context: "../frontend"
+      dockerfile: "../deploy/frontend.Dockerfile"
+    ports:
+      - "3000:3000"
+    entrypoint: [ "npm", "start" ]
