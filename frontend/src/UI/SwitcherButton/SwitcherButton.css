@@ -1,0 +1,11 @@
+.switcher {
+    background-color: #57595c;
+    color: #ffffff;
+    border-radius: 10px;
+    border: none;
+    height: 60px;
+    width: 30px;
+    cursor: pointer;
+    margin: 4px;
+    font-weight: bolder;
+}
