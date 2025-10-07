@@ -2,7 +2,10 @@ import React, { FC, useState, useEffect } from "react";
 import './Calendar.css';
 import { SwitcherButton } from "../../UI/SwitcherButton/SwitcherButton";
 import { InputField } from "../../UI/InputField/InputField";
-import { n } from "react-router/dist/development/index-react-server-client-BYr9g50r";
+import { Props } from "../AuthWindow/AuthWindow";
+import { useNavigate } from "react-router";
+import { observer } from "mobx-react-lite";
+import { userData } from "../../Data/UserData";
 
 interface CalendarDay {
   date: Date | null;
@@ -33,7 +36,7 @@ enum WeekDays {
   SUN = "воскресенье"
 }
 
-export const Calendar : FC = () => {
+export const Calendar : FC<Props> = observer(({navigateFunction}) => {
     const monthNames = Object.values(MonthNames)
     const weekDays = Object.values(WeekDays)
     
@@ -64,6 +67,11 @@ export const Calendar : FC = () => {
     }
 
     return (
+      <section>
+        <nav>
+          <button onClick={navigateFunction}>выход</button>
+          <section>{userData.user?.login}</section>
+        </nav>
         <section className="main">
           <section className="calendar">
             <div className="date-header">{monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}</div>
@@ -90,5 +98,6 @@ export const Calendar : FC = () => {
             </section>
           }
         </section>
+      </section>
     );
-};
+});

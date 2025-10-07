@@ -3,10 +3,10 @@ import { InputField } from "../../UI/InputField/InputField";
 import axios from "axios";
 import "./AuthWindow.css"
 import { base, Endpoints } from "../../Service/axiosService";
+import {userData} from "../../Data/UserData";
 
-interface Props {
+export interface Props {
     navigateFunction: () => void
-
 }
 
 export const AuthWindow: FC<Props> = ({navigateFunction}) => {
@@ -29,10 +29,14 @@ export const AuthWindow: FC<Props> = ({navigateFunction}) => {
 
   const sendAuth = async() => {
     console.log(username, password);
-    let response = await axios.post(base + (regFormOpen ? Endpoints.AUTH_REG : Endpoints.AUTH_LOGIN), 
-      {login : username, password : password})
-    console.log(response)
-    navigateFunction();
+    try {
+      let response = await axios.post(base + (regFormOpen ? Endpoints.AUTH_REG : Endpoints.AUTH_LOGIN), 
+        {login : username, password : password})
+      userData.setUserData(response.data)
+      navigateFunction();
+    } catch {
+      console.log("error")
+    }
   }
 
   const loginForm = () => {
