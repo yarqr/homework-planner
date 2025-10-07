@@ -8,7 +8,7 @@ from backend.api.setup import get_api_router
 from backend.db.repositories import TaskRepository, UserRepository
 
 
-async def main():
+async def main() -> None:
     app = FastAPI()
 
     app.state.user_repo = UserRepository()
