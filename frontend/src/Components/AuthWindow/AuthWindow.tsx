@@ -4,9 +4,8 @@ import axios from "axios";
 import "./AuthWindow.css"
 import { base, Endpoints } from "../../Service/axiosService";
 
-interface Props {
+export interface Props {
     navigateFunction: () => void
-
 }
 
 export const AuthWindow: FC<Props> = ({navigateFunction}) => {
