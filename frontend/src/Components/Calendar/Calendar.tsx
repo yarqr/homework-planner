@@ -4,6 +4,8 @@ import { SwitcherButton } from "../../UI/SwitcherButton/SwitcherButton";
 import { InputField } from "../../UI/InputField/InputField";
 import { Props } from "../AuthWindow/AuthWindow";
 import { useNavigate } from "react-router";
+import { observer } from "mobx-react-lite";
+import { userData } from "../../Data/UserData";
 
 interface CalendarDay {
   date: Date | null;
@@ -34,7 +36,7 @@ enum WeekDays {
   SUN = "воскресенье"
 }
 
-export const Calendar : FC<Props> = ({navigateFunction}) => {
+export const Calendar : FC<Props> = observer(({navigateFunction}) => {
     const monthNames = Object.values(MonthNames)
     const weekDays = Object.values(WeekDays)
     
@@ -68,6 +70,7 @@ export const Calendar : FC<Props> = ({navigateFunction}) => {
       <section>
         <nav>
           <button onClick={navigateFunction}>выход</button>
+          <section>{userData.user?.login}</section>
         </nav>
         <section className="main">
           <section className="calendar">
@@ -97,4 +100,4 @@ export const Calendar : FC<Props> = ({navigateFunction}) => {
         </section>
       </section>
     );
-};
+});
