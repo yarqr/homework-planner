@@ -1,1 +1,1 @@
-def create(): ...  # TODO
+def create() -> None: ...  # TODO

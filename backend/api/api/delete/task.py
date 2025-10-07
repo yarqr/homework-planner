@@ -1,1 +1,1 @@
-def delete(): ...  # TODO
+def delete() -> None: ...  # TODO
