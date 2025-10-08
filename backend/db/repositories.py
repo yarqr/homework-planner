@@ -19,14 +19,20 @@ class UserRepository:
         return None
 
 
-class TaskRepository:
+class TaskRepository:  # TODO: to fill methods & type annotations
     def __init__(self) -> None:
         self.tasks: list[TaskModel] = []
 
-    def create(self, task: TaskModel) -> None: ...  # TODO
+    def create(self, task: TaskModel) -> None: ...
 
-    def delete(self, id_: UUID) -> None: ...  # TODO
+    def delete(self, task_id: UUID) -> None: ...
 
-    def get_count_for_every_month_day(self, year: int, month: int) -> None: ...  # TODO
+    def get_count_for_every_month_day(
+        self, user_id: UUID, month: int, year: int
+    ) -> None: ...
 
-    def get_all_by_date(self, date_: date) -> None: ...  # TODO
+    def get_all_by_date(
+        self,
+        user_id: UUID,
+        date_: date,
+    ) -> None: ...

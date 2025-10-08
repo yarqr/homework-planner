@@ -1,29 +1,40 @@
 from fastapi import APIRouter, status
 
-from backend.api.api.delete.task import delete
-from backend.api.api.get.task import get_all_by_date, get_count_for_every_month_day
-from backend.api.api.post.task import create
-from backend.api.api.post.user import login, registration
+from backend.api.api.tasks.delete import delete_by_id
+from backend.api.api.tasks.get import get_all_for_date, get_count_for_every_month_day
+from backend.api.api.tasks.post import create
+from backend.api.api.users.post import login, register
 
 
 def get_api_router() -> APIRouter:
-    get_router = APIRouter(prefix="/get")
-    get_router.get("/task/get_count_for_every_month_day")(get_count_for_every_month_day)
-    get_router.get("/task/get_all_by_date")(get_all_by_date)
+    users = APIRouter(prefix="/users", tags=["users"])
 
-    post_router = APIRouter(prefix="/post")
-    post_router.post("/user/registration", status_code=status.HTTP_201_CREATED)(
-        registration
+    users.post(
+        "/",
+        summary="Регистрация",
+        status_code=status.HTTP_201_CREATED,
+    )(register)
+    users.post(
+        "/login",
+        summary="Вход",
+    )(login)
+
+    tasks = APIRouter(prefix="/tasks", tags=["tasks"])
+
+    tasks.post("", summary="Создать задачу", status_code=status.HTTP_201_CREATED)(
+        create
     )
-    post_router.post("/user/login")(login)
-    post_router.post("/task/create", status_code=status.HTTP_201_CREATED)(create)
-
-    delete_router = APIRouter(prefix="/delete")
-    delete_router.delete("/task")(delete)
+    tasks.get(
+        "/{user_id}/count-for-every-month-day",
+        summary="Получить количество задач на каждый день месяца",
+    )(get_count_for_every_month_day)
+    tasks.get("/{user_id}/{date}", summary="Получить задачи на определённый день")(
+        get_all_for_date
+    )
+    tasks.delete("/{id}", summary="Удалить задачу")(delete_by_id)
 
     router = APIRouter(prefix="/api")
-    router.include_router(get_router)
-    router.include_router(post_router)
-    router.include_router(delete_router)
+    router.include_router(users)
+    router.include_router(tasks)
 
     return router
