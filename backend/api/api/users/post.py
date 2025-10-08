@@ -1,6 +1,7 @@
+from typing import Annotated
 from uuid import UUID
 
-from fastapi import HTTPException, Request, status
+from fastapi import Body, HTTPException, Request, status
 from pydantic import BaseModel
 
 from backend.db.models import UserModel
@@ -8,16 +9,16 @@ from backend.db.repositories import UserRepository
 
 
 class UserAuthorizationRequest(BaseModel):
-    login: str
-    password: str
+    login: Annotated[str, Body(title="Логин пользователя")]
+    password: Annotated[str, Body(title="Пароль пользователя")]
 
 
 class UserAuthorizationResponse(BaseModel):
-    user_id: UUID
-    login: str
+    user_id: Annotated[UUID, Body(title="Идентификатор пользователя")]
+    login: Annotated[str, Body(title="Логин пользователя")]
 
 
-async def registration(
+async def register(
     data: UserAuthorizationRequest, request: Request
 ) -> UserAuthorizationResponse:
     user_repo: UserRepository = request.app.state.user_repo
