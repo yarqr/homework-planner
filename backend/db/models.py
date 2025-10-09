@@ -18,3 +18,12 @@ class TaskModel:
     user_id: UUID
 
     id: UUID = field(default_factory=uuid4)
+
+    def have_same_data(self, task: "TaskModel"):
+        return all(
+            [
+                self.name == task.name,
+                self.date == task.date,
+                self.user_id == task.user_id,
+            ]
+        )

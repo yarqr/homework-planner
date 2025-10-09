@@ -2,8 +2,11 @@ from datetime import date
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import Body
+from fastapi import Body, HTTPException, status, Request
 from pydantic import BaseModel
+
+from backend.db.models import TaskModel
+from backend.db.repositories import TaskRepository
 
 
 class TaskCreatingRequest(BaseModel):
@@ -17,5 +20,12 @@ class TaskCreatingResponse(BaseModel):
 
 
 async def create(
-    data: TaskCreatingRequest,
-) -> TaskCreatingResponse: ...  # TODO: to fill func
+    data: TaskCreatingRequest, request: Request
+) -> TaskCreatingResponse:
+    task_repo: TaskRepository = request.app.state.task_repo
+    task = TaskModel(name=data.name, date=data.date, user_id=data.user_id)
+    if task_repo.have_repetitions(task):
+        raise HTTPException(status.HTTP_409_CONFLICT, "Task with same data already exists")
+    else:
+        task_repo.create(task)
+        return TaskCreatingResponse(id=task.id)
