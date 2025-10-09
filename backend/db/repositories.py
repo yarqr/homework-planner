@@ -23,7 +23,14 @@ class TaskRepository:  # TODO: to fill methods & type annotations
     def __init__(self) -> None:
         self.tasks: list[TaskModel] = []
 
-    def create(self, task: TaskModel) -> None: ...
+    def create(self, task: TaskModel) -> None:
+        self.tasks.append(task)
+
+    def have_repetitions(self, task: TaskModel) -> bool:
+        for task2 in self.tasks:
+            if task.have_same_data(task2):
+                return True
+        return False
 
     def delete(self, task_id: UUID) -> None: ...
 
