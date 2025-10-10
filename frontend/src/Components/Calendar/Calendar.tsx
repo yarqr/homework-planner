@@ -6,6 +6,9 @@ import { Props } from "../AuthWindow/AuthWindow";
 import { useNavigate } from "react-router";
 import { observer } from "mobx-react-lite";
 import { userData } from "../../Data/UserData";
+import axios from "axios";
+import { ApiEndpoints } from "../../Service/axiosService";
+import { tasksData } from "../../Data/CurrentDayData";
 
 interface CalendarDay {
   date: Date | null;
@@ -51,7 +54,10 @@ export const Calendar : FC<Props> = observer(({navigateFunction}) => {
 
     for (let i = monthStart.getDate(); i <= monthEnd.getDate(); i++) {
       let day = {
-        date : new Date(currentDate.getFullYear(), currentDate.getMonth(), i)
+        date : new Date(currentDate.getFullYear(), currentDate.getMonth(), i),
+        tasksNum: userData.user?.tasks.
+        filter((x, index) => index + 1 == currentDate.getDay()).
+        reduce((acc, el) => acc += el)
       }
       currMonthDays.push(day)
     }
@@ -66,6 +72,48 @@ export const Calendar : FC<Props> = observer(({navigateFunction}) => {
       currMonthDays.push({date : null})
     }
 
+    const sendTask = async () => {
+      console.log(currentDate.toISOString())
+      try {
+        let response = await axios.post(ApiEndpoints.tasks.create(), {
+          name : newTask,
+          date : currentDate.toISOString(),
+          user_id: userData.user?.user_id
+        })
+        console.log(response)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+
+    const openContextMenu = async (el : CalendarDay) => {
+      setContextMenuElem(el)
+      try {
+        let response = await axios.get(ApiEndpoints.tasks.get(
+          userData.user!.user_id, 
+          currentDate.toISOString(),
+        ))
+        tasksData.setTasksData(response.data)
+        console.log(response)
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    useEffect(() => {
+      const getTasksNum = async() => {
+        try {
+          let response = await axios.get(ApiEndpoints.tasks.getMonth(userData.user!.user_id))
+          userData.user!.tasks = response.data
+          console.log(response)
+        } catch(e){
+          console.log(e)
+        }
+      }
+      getTasksNum();
+    }, [])
+
     return (
       <section>
         <nav>
@@ -79,7 +127,7 @@ export const Calendar : FC<Props> = observer(({navigateFunction}) => {
             <SwitcherButton onClick={() => setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1))} text="&gt;"/>
             <section className="container">
               {weekDays.map(el => <div className="day-header">{el}</div>)}
-              {currMonthDays.map(el => <div onClick={() => setContextMenuElem(el)} className={el.date != null ? "day-card" : "day-card-disabled"}>
+              {currMonthDays.map(el => <div onClick={() => openContextMenu(el)} className={el.date != null ? "day-card" : "day-card-disabled"}>
                 {el.date != null &&
                 <>
                   <section>{el.date?.getDate()}</section>
@@ -92,8 +140,9 @@ export const Calendar : FC<Props> = observer(({navigateFunction}) => {
             <section className="context">
               <section className="context-header">меню</section>
               <section className="context-date">{contextMenuElem.date?.getDate()}.{contextMenuElem.date!.getMonth() + 1}.{contextMenuElem.date!.getFullYear()}</section>
+              <section>{tasksData.tasks?.map(el => <section>{el.name}</section>)}</section>
               <InputField type="text" onChange={(value) => {setNewTask(value)}} label="Добавить задачу" value={newTask} regex={/$^/}/>
-              <button className="btn2" onClick={() => console.log(newTask)}>Добавить</button>
+              <button className="btn2" onClick={() => sendTask()}>Добавить</button>
               <button className="btn" onClick={() => {setContextMenuElem(null)}}>закрыть</button>
             </section>
           }

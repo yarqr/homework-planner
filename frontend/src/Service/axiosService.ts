@@ -19,9 +19,9 @@ export class ApiEndpoints {
 
   static tasks = {
     create: () => `${this.base}/tasks`,
-    getMonth: (userId: string | number) => 
+    getMonth: (userId: string) => 
       `${this.base}/tasks/${userId}/count-for-every-month-day`,
-    get: (userId: string | number, date: string) => 
+    get: (userId: string, date: string) => 
       `${this.base}/tasks/${userId}/${date}`,
     delete: (taskId: string | number) => `/${this.base}tasks/${taskId}`,
   };
