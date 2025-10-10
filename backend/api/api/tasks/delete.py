@@ -10,5 +10,5 @@ class TaskDeletingResponse(BaseModel):
 
 
 async def delete_by_id(
-    task_id: Annotated[UUID, Path(title="Идентификатор задачи")],
+    task_id: Annotated[UUID, Path(title="Идентификатор задачи", alias="id")],
 ) -> TaskDeletingResponse: ...  # TODO: to fill func
