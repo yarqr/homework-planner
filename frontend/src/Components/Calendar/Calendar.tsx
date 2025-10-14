@@ -61,7 +61,6 @@ export const Calendar : FC<Props> = observer(({navigateFunction}) => {
       }
       currMonthDays.push(day)
     }
-
     for (let i = 0; i < startDay; i++) {
       currMonthDays.unshift({date : null})
     }
@@ -88,6 +87,17 @@ export const Calendar : FC<Props> = observer(({navigateFunction}) => {
       }
     }
 
+    const delTask = async (id: string) => {
+      try {
+        console.log(ApiEndpoints.tasks.get(
+          userData.user!.user_id, 
+          contextMenuElem!.date!.toISOString().split('T')[0]))
+        let response = await axios.post(ApiEndpoints.tasks.delete(id))
+        console.log(response)
+      } catch (error) {
+        console.log(error)
+      }
+    }
 
     const openContextMenu = async (el : CalendarDay) => {
       await setContextMenuElem(el)
@@ -109,9 +119,11 @@ export const Calendar : FC<Props> = observer(({navigateFunction}) => {
     useEffect(() => {
       const getTasksNum = async() => {
         try {
-          let response = await axios.get(ApiEndpoints.tasks.getMonth(userData.user!.user_id))
-          userData.user!.tasks = response.data
-          console.log(response)
+          let date = currentDate ?? new Date();
+          let response = await axios.get(ApiEndpoints.tasks.getMonth(userData.user!.user_id, 
+            date.getFullYear(), 
+            date.getMonth() + 1))
+          userData.user!.tasks = response.data.result
         } catch(e){
           console.log(e)
         }
@@ -145,7 +157,14 @@ export const Calendar : FC<Props> = observer(({navigateFunction}) => {
             <section className="context">
               <section className="context-header">меню</section>
               <section className="context-date">{contextMenuElem.date?.getDate()}.{contextMenuElem.date!.getMonth() + 1}.{contextMenuElem.date!.getFullYear()}</section>
-              <section>{tasksData.tasks?.map(el => <section>{el.name}</section>)}</section>
+              <section>{tasksData.tasks?.map(el => <section>
+              <section>
+                {el.name}
+              </section>
+              <button onClick={() => delTask(el.id)}>
+                удалить
+              </button>
+              </section>)}</section>
               <InputField type="text" onChange={(value) => {setNewTask(value)}} label="Добавить задачу" value={newTask} regex={/$^/}/>
               <button className="btn2" onClick={() => sendTask()}>Добавить</button>
               <button className="btn" onClick={() => {setContextMenuElem(null)}}>закрыть</button>
