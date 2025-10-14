@@ -20,7 +20,7 @@ class UserRepository:
         return None
 
 
-class TaskRepository:  # TODO: to fill methods & type annotations
+class TaskRepository:
     def __init__(self) -> None:
         self.tasks: list[TaskModel] = []
 
@@ -33,7 +33,7 @@ class TaskRepository:  # TODO: to fill methods & type annotations
                 return True
         return False
 
-    def task_exists(self, task_id: UUID):
+    def task_exists(self, task_id: UUID) -> bool:
         for task in self.tasks:
             if task_id == task.id:
                 return True
@@ -48,7 +48,7 @@ class TaskRepository:  # TODO: to fill methods & type annotations
     def get_count_for_every_month_day(
         self, user_id: UUID, month: int, year: int
     ) -> list[int]:
-        days = {}
+        days: dict[int, int] = {}
         for task in self.tasks:
             if (
                 task.user_id == user_id
