@@ -14,7 +14,7 @@ class TasksData {
     public tasks : Task[] | undefined=undefined
     
     setTasksData(data : any) {
-        this.tasks = data
+        this.tasks = data.result
     }
 }
 

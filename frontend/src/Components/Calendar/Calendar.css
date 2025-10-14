@@ -120,6 +120,7 @@ nav section {
 }
 
 .day-card {
+     position: relative; 
     height: 100px;
     border: 2px solid #e0e0e0;
     border-radius: 16px;
@@ -173,4 +174,19 @@ nav section {
     color: #2c3e50;
     margin: 20px 0;
     text-transform: capitalize;
+}
+
+.task-badge {
+  background: #ff4444;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }

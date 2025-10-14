@@ -23,6 +23,6 @@ export class ApiEndpoints {
       `${this.base}/tasks/${userId}/count-for-every-month-day?year=${year}&month=${month}`,
     get: (userId: string, date: string) => 
       `${this.base}/tasks/${userId}/${date}`,
-    delete: (taskId: string | number) => `/${this.base}tasks/${taskId}`,
+    delete: (taskId: string | number) => `${this.base}/tasks/${taskId}`,
   };
 }
