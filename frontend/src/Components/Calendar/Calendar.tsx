@@ -55,9 +55,9 @@ export const Calendar : FC<Props> = observer(({navigateFunction}) => {
     for (let i = monthStart.getDate(); i <= monthEnd.getDate(); i++) {
       let day = {
         date : new Date(currentDate.getFullYear(), currentDate.getMonth(), i),
-        tasksNum: userData.user?.tasks.
-        filter((x, index) => index + 1 == currentDate.getDay()).
-        reduce((acc, el) => acc += el)
+        // tasksNum: userData.user?.tasks.
+        // filter((x, index) => index + 1 == currentDate.getDay()).
+        // reduce((acc, el) => acc += el)
       }
       currMonthDays.push(day)
     }
@@ -73,11 +73,13 @@ export const Calendar : FC<Props> = observer(({navigateFunction}) => {
     }
 
     const sendTask = async () => {
-      console.log(currentDate.toISOString())
       try {
+        console.log(ApiEndpoints.tasks.get(
+          userData.user!.user_id, 
+          contextMenuElem!.date!.toISOString().split('T')[0]))
         let response = await axios.post(ApiEndpoints.tasks.create(), {
           name : newTask,
-          date : currentDate.toISOString(),
+          date : contextMenuElem!.date!.toISOString().split('T')[0],
           user_id: userData.user?.user_id
         })
         console.log(response)
@@ -88,11 +90,14 @@ export const Calendar : FC<Props> = observer(({navigateFunction}) => {
 
 
     const openContextMenu = async (el : CalendarDay) => {
-      setContextMenuElem(el)
+      await setContextMenuElem(el)
       try {
+        console.log(ApiEndpoints.tasks.get(
+          userData.user!.user_id, 
+          el!.date!.toISOString().split('T')[0]))
         let response = await axios.get(ApiEndpoints.tasks.get(
           userData.user!.user_id, 
-          currentDate.toISOString(),
+          el!.date!.toISOString().split('T')[0],
         ))
         tasksData.setTasksData(response.data)
         console.log(response)
