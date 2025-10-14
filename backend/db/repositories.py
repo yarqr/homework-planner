@@ -52,4 +52,9 @@ class TaskRepository:  # TODO: to fill methods & type annotations
         self,
         user_id: UUID,
         date_: date,
-    ) -> None: ...
+    ) -> list[TaskModel]:
+        tasks = []
+        for task in self.tasks:
+            if task.date == date_ and task.user_id == user_id:
+                tasks.append(task)
+        return tasks
