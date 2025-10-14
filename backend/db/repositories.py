@@ -1,3 +1,4 @@
+import calendar
 from datetime import date
 from typing import Optional
 from uuid import UUID
@@ -32,11 +33,34 @@ class TaskRepository:  # TODO: to fill methods & type annotations
                 return True
         return False
 
-    def delete(self, task_id: UUID) -> None: ...
+    def task_exists(self, task_id: UUID):
+        for task in self.tasks:
+            if task_id == task.id:
+                return True
+        return False
+
+    def delete(self, task_id: UUID) -> None:
+        for task in self.tasks:
+            if task.id == task_id:
+                self.tasks.remove(task)
+                break
 
     def get_count_for_every_month_day(
         self, user_id: UUID, month: int, year: int
-    ) -> None: ...
+    ) -> list[int]:
+        days = {}
+        for task in self.tasks:
+            if (
+                task.user_id == user_id
+                and task.date.year == year
+                and task.date.month == month
+            ):
+                day = task.date.day
+                days[day] = days.setdefault(day, 0) + 1
+        month_list = []
+        for day in range(1, calendar.monthrange(year, month)[1] + 1):
+            month_list.append(days.get(day, 0))
+        return month_list
 
     def get_all_by_date(
         self,

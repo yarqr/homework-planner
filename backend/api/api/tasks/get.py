@@ -3,8 +3,10 @@ from datetime import date
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import Body, Path, Query
+from fastapi import Body, Path, Query, Request
 from pydantic import BaseModel
+
+from backend.db.repositories import TaskRepository
 
 
 class GetCountForEveryMonthDayResponse(BaseModel):
@@ -45,7 +47,12 @@ async def get_count_for_every_month_day(
         int,
         Query(title="Месяц окончания срока задач"),
     ],
-) -> GetCountForEveryMonthDayResponse: ...  # TODO: to fill func
+    request: Request,
+) -> GetCountForEveryMonthDayResponse:
+    task_repo: TaskRepository = request.app.state.task_repo
+    return GetCountForEveryMonthDayResponse(
+        result=task_repo.get_count_for_every_month_day(user_id, month, year)
+    )
 
 
 def get_all_for_date(
