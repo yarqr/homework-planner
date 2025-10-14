@@ -203,7 +203,7 @@ export const Calendar: FC<Props> = observer(({ navigateFunction }) => {
             <section className="context-date">{contextMenuElem.date?.getDate()}.{contextMenuElem.date!.getMonth() + 1}.{contextMenuElem.date!.getFullYear()}</section>
             <section>
               {(tasksData.tasks || []).map(el => (
-                <section key={el.id}>
+                <section key={el.id} className="task">
                   <section>{el.name}</section>
                   <button onClick={() => delTask(el.id)}>удалить</button>
                 </section>
