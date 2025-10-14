@@ -19,7 +19,7 @@ class TaskModel:
 
     id: UUID = field(default_factory=uuid4)
 
-    def have_same_data(self, task: "TaskModel"):
+    def have_same_data(self, task: "TaskModel") -> bool:
         return all(
             [
                 self.name == task.name,
