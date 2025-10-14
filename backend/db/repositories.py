@@ -32,7 +32,17 @@ class TaskRepository:  # TODO: to fill methods & type annotations
                 return True
         return False
 
-    def delete(self, task_id: UUID) -> None: ...
+    def task_exists(self, task_id: UUID):
+        for task in self.tasks:
+            if task_id == task.id:
+                return True
+        return False
+
+    def delete(self, task_id: UUID) -> None:
+        for task in self.tasks:
+            if task.id == task_id:
+                self.tasks.remove(task)
+                break
 
     def get_count_for_every_month_day(
         self, user_id: UUID, month: int, year: int
