@@ -200,6 +200,13 @@ nav section {
   cursor: pointer;
   transition: all 0.3s ease;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bin {
+
 }
 
 .task-badge {
