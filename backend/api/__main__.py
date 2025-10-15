@@ -9,7 +9,7 @@ from backend.db.repositories import TaskRepository, UserRepository
 
 
 async def main() -> None:
-    app = FastAPI()
+    app = FastAPI(redoc_url="/")
 
     app.state.user_repo = UserRepository()
     app.state.task_repo = TaskRepository()
