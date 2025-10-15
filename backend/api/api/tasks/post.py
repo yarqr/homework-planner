@@ -16,7 +16,7 @@ class TaskCreatingRequest(BaseModel):
 
 
 class TaskCreatingResponse(BaseModel):
-    id: Annotated[UUID, Body(title="Идентификатор задачи")]
+    task_id: Annotated[UUID, Body(title="Идентификатор задачи")]
 
 
 async def create(data: TaskCreatingRequest, request: Request) -> TaskCreatingResponse:
@@ -28,4 +28,4 @@ async def create(data: TaskCreatingRequest, request: Request) -> TaskCreatingRes
         )
     else:
         task_repo.create(task)
-        return TaskCreatingResponse(id=task.id)
+        return TaskCreatingResponse(task_id=task.id)

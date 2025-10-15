@@ -31,7 +31,11 @@ def get_api_router() -> APIRouter:
     tasks.get("/{user_id}/{date}", summary="Получить задачи на определённый день")(
         get_all_for_date
     )
-    tasks.delete("/{id}", summary="Удалить задачу")(delete_by_id)
+    tasks.delete(
+        "/{task_id}",
+        summary="Удалить задачу",
+        status_code=status.HTTP_204_NO_CONTENT,
+    )(delete_by_id)
 
     router = APIRouter(prefix="/api")
     router.include_router(users)
