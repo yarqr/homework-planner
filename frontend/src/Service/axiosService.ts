@@ -1,14 +1,5 @@
 export const base : string = "http://127.0.0.1:8000/api/"
 
-export enum Endpoints {
-    AUTH_REG = "users/",
-    AUTH_LOGIN = "users/login",
-    TASK_CREATE = "tasks",
-    TASK_GETMONTH = "tasks/{user_id}/count-for-every-month-day",
-    TASK_GET = "tasks/{user_id}/{date}",
-    TASK_DEL = "tasks/{id}"
-}
-
 export class ApiEndpoints {
   private static base: string = "http://127.0.0.1:8000/api";
 
