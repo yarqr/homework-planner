@@ -18,3 +18,11 @@ services:
     depends_on:
       - api
     entrypoint: [ "npm", "start" ]
+  bot:
+    restart: "always"
+    build:
+      context: ..
+      dockerfile: "deploy/bot.Dockerfile"
+    environment:
+      BOT_TOKEN: ""
+    entrypoint: [ "python", "-m", "backend.bot" ]

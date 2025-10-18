@@ -5,8 +5,8 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1
 
 COPY pyproject.toml uv.lock ./
-RUN pip install --no-cache-dir uv==0.8.20
-RUN uv sync --group api -n
+RUN pip install --no-cache-dir uv==0.8.5
+RUN uv sync --group bot -n
 
 FROM python:3.11-slim
 
@@ -17,5 +17,4 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 COPY --from=base /app/.venv .venv/
 
-COPY backend/api ./backend/api
-COPY backend/db ./backend/db
+COPY backend/bot ./backend/bot
