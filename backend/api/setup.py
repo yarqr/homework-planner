@@ -3,6 +3,7 @@ from fastapi import APIRouter, status
 from backend.api.routes.tasks.delete import delete_by_id
 from backend.api.routes.tasks.get import get_all_for_date, get_count_for_every_month_day
 from backend.api.routes.tasks.post import create
+from backend.api.routes.users.get import get_user
 from backend.api.routes.users.post import login, register
 from backend.api.routes.users.put import update_tg_id
 
@@ -19,6 +20,7 @@ def get_api_router() -> APIRouter:
         "/login",
         summary="Вход",
     )(login)
+    users.get("/{user_id}", summary="Получить данные о пользователе")(get_user)
     users.put(
         "/{user_id}/update-tg-id",
         summary="Обновить ИД в ТГ",

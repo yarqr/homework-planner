@@ -15,7 +15,6 @@ class UserAuthorizationRequest(BaseModel):
 
 class UserAuthorizationResponse(BaseModel):
     user_id: Annotated[UUID, Body(title="Идентификатор пользователя")]
-    login: Annotated[str, Body(title="Логин пользователя")]
 
 
 async def register(
@@ -27,7 +26,7 @@ async def register(
     else:
         user = UserModel(login=data.login, password=data.password)
         user_repo.create(user)
-        return UserAuthorizationResponse(user_id=user.id, login=user.login)
+        return UserAuthorizationResponse(user_id=user.id)
 
 
 async def login(
@@ -39,6 +38,6 @@ async def login(
         raise HTTPException(status.HTTP_404_NOT_FOUND, "User not found")
     else:
         if user.password == data.password:
-            return UserAuthorizationResponse(user_id=user.id, login=user.login)
+            return UserAuthorizationResponse(user_id=user.id)
         else:
             raise HTTPException(status.HTTP_409_CONFLICT, "Incorrect password")
