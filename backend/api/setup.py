@@ -1,9 +1,10 @@
 from fastapi import APIRouter, status
 
-from backend.api.api.tasks.delete import delete_by_id
-from backend.api.api.tasks.get import get_all_for_date, get_count_for_every_month_day
-from backend.api.api.tasks.post import create
-from backend.api.api.users.post import login, register
+from backend.api.routes.tasks.delete import delete_by_id
+from backend.api.routes.tasks.get import get_all_for_date, get_count_for_every_month_day
+from backend.api.routes.tasks.post import create
+from backend.api.routes.users.post import login, register
+from backend.api.routes.users.put import update_tg_id
 
 
 def get_api_router() -> APIRouter:
@@ -18,6 +19,11 @@ def get_api_router() -> APIRouter:
         "/login",
         summary="Вход",
     )(login)
+    users.put(
+        "/{user_id}/update-tg-id",
+        summary="Обновить ИД в ТГ",
+        status_code=status.HTTP_204_NO_CONTENT,
+    )(update_tg_id)
 
     tasks = APIRouter(prefix="/tasks", tags=["tasks"])
 

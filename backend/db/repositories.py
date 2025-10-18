@@ -19,6 +19,12 @@ class UserRepository:
                 return user
         return None
 
+    def update_tg_id(self, user_id: UUID, tg_id: int) -> None:
+        for user in self.users:
+            if user.id == user_id:
+                user.tg_id = tg_id
+                break
+
 
 class TaskRepository:
     def __init__(self) -> None:

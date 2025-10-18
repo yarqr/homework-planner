@@ -15,4 +15,6 @@ services:
       dockerfile: "../deploy/frontend.Dockerfile"
     ports:
       - "3000:3000"
+    depends_on:
+      - api
     entrypoint: [ "npm", "start" ]
