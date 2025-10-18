@@ -1,5 +1,3 @@
-export const base : string = "http://127.0.0.1:8000/api/"
-
 export class ApiEndpoints {
   private static base: string = "http://127.0.0.1:8000/api";
 
