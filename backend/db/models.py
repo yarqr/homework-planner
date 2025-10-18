@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from datetime import date
+from typing import Optional
 from uuid import UUID, uuid4
 
 
@@ -7,6 +8,7 @@ from uuid import UUID, uuid4
 class UserModel:
     login: str
     password: str
+    tg_id: Optional[int] = None
 
     id: UUID = field(default_factory=uuid4)
 
