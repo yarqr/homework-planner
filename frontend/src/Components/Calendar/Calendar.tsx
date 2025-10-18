@@ -9,6 +9,7 @@ import axios from "axios";
 import { ApiEndpoints } from "../../Service/axiosService";
 import { tasksData } from "../../Data/CurrentDayData";
 import { DeleteButton } from "../../UI/DeleteButton/DeleteButton";
+import { telegramLink } from "../../Service/telegram";
 
 interface CalendarDay {
   date: Date | null;
@@ -47,6 +48,7 @@ export const Calendar: FC<Props> = observer(({ navigateFunction }) => {
   let [currentDate, setDate] = useState(new Date())
   let [contextMenuElem, setContextMenuElem] = useState<CalendarDay | null>(null)
   let [newTask, setNewTask] = useState<string>("")
+  let [tgWinOpened, setTgWinOpened] = useState<boolean>(false)
   let monthStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
   let monthEnd = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
   let currMonthDays: CalendarDay[] = [];
@@ -172,8 +174,13 @@ export const Calendar: FC<Props> = observer(({ navigateFunction }) => {
       <nav>
         <button onClick={navigateFunction}>выход</button>
         <section>{userData.user?.login}</section>
+        <button onClick={() => setTgWinOpened(!tgWinOpened)}>telegram</button>
       </nav>
       <section className="main">
+        {tgWinOpened && <section className="window">
+          <section>привяжите телеграм</section>
+          <a href={telegramLink.link(userData.user!.user_id)} target="_blank">telegram</a>
+        </section>}
         <section className="calendar">
           <div className="date-header">{monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}</div>
           <SwitcherButton onClick={() => setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1))} text="&lt;" />
