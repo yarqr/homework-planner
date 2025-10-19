@@ -24,5 +24,5 @@ services:
       context: ..
       dockerfile: "deploy/bot.Dockerfile"
     environment:
-      BOT_TOKEN: "8481570226:AAHVPT9QQNBKmfcUrhf5tZDMp-KXdf2hzvM"
+      BOT_TOKEN: ""
     entrypoint: [ "python", "-m", "backend.bot" ]
