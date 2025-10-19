@@ -1,6 +1,7 @@
 .main {
     display: flex;
-    width: 100vw;
+    width: 100%;
+    height: 100%;
     flex-direction: row;
 }
 
@@ -9,15 +10,15 @@ nav {
     display: flex;
     flex-direction: row-reverse;
     justify-content: baseline;
-    align-items: baseline;
+    align-items: center;
     gap: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 3px;
     padding: 4px;
-    
+    position: relative;
 }
 
-nav button {
+.navbtn {
     background-color: #ffffff;
     border: 1px solid #000000;
     padding: 12px 20px;
@@ -29,7 +30,7 @@ nav button {
     margin-right: 15px;
 }
 
-nav button:hover {
+.navbtn:hover {
     transform: scale(1.05);
 }
 
@@ -38,19 +39,92 @@ nav section {
    font-weight: 600;
 }
 
+.nav-tg {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+}
+
+.window {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    background: white;
+    border: 2px solid #e2dddd;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    min-width: 280px;
+    animation: slideDown 0.3s ease-out;
+}
+
+.window section:first-child {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #2c3e50;
+}
+
+.window div {
+    background: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    font-size: 14px;
+    color: #495057;
+    border: 1px solid #e9ecef;
+}
+
+.window a {
+    display: block;
+    background: #007bff;
+    color: white;
+    text-align: center;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+}
+
+.window a:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .calendar {
     width: 100%;
+    height: 80%;
 }
 
 .context {
+    margin: 15px;
+    border-radius: 10px;
+    height: 80vh;
     width: 300px;
-    border-left: 2px solid #e0e0e0;
-    height: 90vh;
+    border: 2px solid #e2dddd;
     background-color: #ffffff;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0 8px rgba(0, 0, 0, 0.1);
 }
 
 .context-header {
@@ -120,7 +194,7 @@ nav section {
 }
 
 .day-card {
-     position: relative; 
+    position: relative; 
     height: 100px;
     border: 2px solid #e0e0e0;
     border-radius: 16px;
@@ -224,6 +298,235 @@ nav section {
   right: 5px;
 }
 
-.window {
-    margin-right: 5px;
+@media (max-width: 1600px) {
+    .container {
+        max-width: 1100px;
+        gap: 7px;
+    }
+    
+    .day-card,
+    .day-card-disabled {
+        height: 90px;
+        font-size: 17px;
+    }
+    
+    .date-header {
+        font-size: 26px;
+    }
 }
+
+@media (max-width: 1440px) {
+    .container {
+        max-width: 1000px;
+        gap: 6px;
+    }
+    
+    .day-card,
+    .day-card-disabled {
+        height: 80px;
+        font-size: 16px;
+        border-radius: 14px;
+    }
+    
+    .date-header {
+        font-size: 24px;
+        margin: 18px 0;
+    }
+    
+    .day-header {
+        padding: 12px 0;
+        font-size: 13px;
+    }
+    
+    .context {
+        width: 280px;
+        margin: 12px;
+    }
+    
+    .task-badge {
+        width: 18px;
+        height: 18px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 1280px) {
+    .container {
+        max-width: 900px;
+        gap: 5px;
+        padding: 0 15px;
+    }
+    
+    .day-card,
+    .day-card-disabled {
+        height: 70px;
+        font-size: 15px;
+        border-radius: 12px;
+    }
+    
+    .date-header {
+        font-size: 22px;
+        margin: 16px 0;
+    }
+    
+    .day-header {
+        padding: 10px 0;
+        font-size: 12px;
+    }
+    
+    .context {
+        width: 260px;
+        padding: 18px;
+        margin: 10px;
+    }
+    
+    .context-header {
+        font-size: 18px;
+        margin-bottom: 18px;
+    }
+    
+    .context-date {
+        font-size: 16px;
+        margin-bottom: 20px;
+        padding: 10px;
+    }
+    
+    .task {
+        padding: 10px 14px;
+        margin: 6px 0;
+    }
+    
+    .task button {
+        padding: 7px 14px;
+        font-size: 13px;
+    }
+    
+    .task-badge {
+        width: 16px;
+        height: 16px;
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .container {
+        max-width: 800px;
+        gap: 4px;
+        padding: 0 10px;
+    }
+    
+    .day-card,
+    .day-card-disabled {
+        height: 60px;
+        font-size: 14px;
+        border-radius: 10px;
+    }
+    
+    .date-header {
+        font-size: 20px;
+        margin: 14px 0;
+    }
+    
+    .day-header {
+        padding: 8px 0;
+        font-size: 11px;
+    }
+    
+    .context {
+        width: 240px;
+        padding: 15px;
+        margin: 8px;
+    }
+    
+    .context-header {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+    
+    .context-date {
+        font-size: 14px;
+        margin-bottom: 18px;
+        padding: 8px;
+    }
+    
+    .btn,
+    .btn2 {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+    
+    nav button {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+    
+    nav section {
+        font-size: 14px;
+    }
+    
+    .task {
+        padding: 8px 12px;
+        margin: 5px 0;
+    }
+    
+    .task button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    
+    .task-badge {
+        width: 14px;
+        height: 14px;
+        font-size: 9px;
+        top: 3px;
+        right: 3px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main {
+        flex-direction: column;
+    }
+    
+    .calendar {
+        height: auto;
+    }
+    
+    .context {
+        width: 100%;
+        height: auto;
+        margin: 10px 0;
+        order: -1;
+    }
+    
+    .container {
+        max-width: 100%;
+        gap: 3px;
+    }
+    
+    .day-card,
+    .day-card-disabled {
+        height: 50px;
+        font-size: 13px;
+        border-radius: 8px;
+    }
+    
+    .date-header {
+        font-size: 18px;
+        margin: 12px 0;
+    }
+    
+    .window {
+        right: 5px;
+        left: 5px;
+        min-width: auto;
+    }
+    
+    .window::before,
+    .window::after {
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
