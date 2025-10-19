@@ -202,14 +202,14 @@ export const Calendar: FC<Props> = observer(({ navigateFunction }) => {
       </nav>
       <section className="main">
         {tgWinOpened && <section className="window">
-          <section>статус: {userData.user?.tg_id != undefined ? "подключен" : "не подключен"}</section>
-          <section>привязать аккаунт</section>
-          <a href={telegramLink.link(userData.user!.user_id)} target="_blank">перейти</a>
+          <section>статус: {userData.user?.tg_id != undefined ? "✅ Подключено" : "❌ Отключено"}</section>
+          <section>Нажмите ниже, чтобы привязать аккаунт в телеграм и получать уведомления</section>
+          <a href={telegramLink.link(userData.user!.user_id)} onClick={() => setTgWinOpened(false)} target="_blank">перейти в бота</a>
         </section>}
         <section className="calendar">
           <div className="date-header">{monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}</div>
-          <SwitcherButton onClick={() => setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1))} text="&lt;" />
-          <SwitcherButton onClick={() => setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1))} text="&gt;" />
+          <SwitcherButton onClick={() => setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1))} text="←" />
+          <SwitcherButton onClick={() => setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1))} text="→" />
           <section className="container">
             {weekDays.map((el, index) => <div key={index} className="day-header">{el}</div>)}
             {currMonthDays.map((el, index) => (
