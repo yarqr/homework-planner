@@ -21,14 +21,14 @@ class GetCountForEveryMonthDayResponse(BaseModel):
 
 
 @dataclass(kw_only=True)
-class TaskResult:
+class GetAllForDateTaskResult:
     id: Annotated[UUID, Body(title="Идентификатор задачи")]
     name: Annotated[str, Body(title="Название задачи")]
 
 
 class GetAllForDateResponse(BaseModel):
     result: Annotated[
-        list[TaskResult],
+        list[GetAllForDateTaskResult],
         Body(
             title="Массив задач с полученной датой окончания срока",
         ),
@@ -53,7 +53,7 @@ async def get_count_for_every_month_day(
     )
 
 
-def get_all_for_date(
+async def get_all_for_date(
     user_id: Annotated[UUID, Path(title="Идентификатор пользователя")],
     date_: Annotated[date, Path(title="Дата окончания срока задач", alias="date")],
     request: Request,
@@ -62,7 +62,7 @@ def get_all_for_date(
     tasks = task_repo.get_all_by_date(user_id, date_)
     return GetAllForDateResponse(
         result=[
-            TaskResult(
+            GetAllForDateTaskResult(
                 id=task.id,
                 name=task.name,
             )
