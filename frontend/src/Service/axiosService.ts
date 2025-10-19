@@ -4,6 +4,7 @@ export class ApiEndpoints {
   static auth = {
     register: () => `${this.base}/users`,
     login: () => `${this.base}/users/login`,
+    get: (id: string) => `${this.base}/users/${id}`
   };
 
   static tasks = {

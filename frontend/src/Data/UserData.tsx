@@ -4,6 +4,7 @@ export interface User {
     login: string
     user_id: string
     tasks : number[]
+    tg_id: string
 }
 
 class UserData {
@@ -15,6 +16,15 @@ class UserData {
     
     setUserData(data : any) {
         this.user = data
+    }
+
+    updateUserData(partialData: Partial<User>) {
+        if (this.user) {
+            this.user = {
+                ...this.user,
+                ...partialData
+            }
+        }
     }
 }
 
