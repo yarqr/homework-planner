@@ -80,3 +80,13 @@ class TaskRepository:
             if task.date == date_ and task.user_id == user_id:
                 tasks.append(task)
         return tasks
+
+    def get_all(self) -> list[TaskModel]:
+        return self.tasks
+
+    def update_notifications(self, task_id: UUID, count: int = 1) -> bool:
+        for task in self.tasks:
+            if task.id == task_id:
+                task.notifications += count
+                return True
+        return False
