@@ -2,7 +2,7 @@
 .idea
 
 # Python
-#__pycache__
+__pycache__
 
-# Database
-*.db
+# Configuration
+.env

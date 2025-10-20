@@ -23,6 +23,7 @@ services:
     build:
       context: ..
       dockerfile: "deploy/bot.Dockerfile"
-    environment:
-      BOT_TOKEN: ""
+    env_file: "../.env"
+    depends_on:
+      - api
     entrypoint: [ "python", "-m", "backend.bot" ]

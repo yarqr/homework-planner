@@ -1,8 +1,13 @@
 from fastapi import APIRouter, status
 
 from backend.api.routes.tasks.delete import delete_by_id
-from backend.api.routes.tasks.get import get_all_for_date, get_count_for_every_month_day
+from backend.api.routes.tasks.get import (
+    get_all_for_date,
+    get_all_for_notifications,
+    get_count_for_every_month_day,
+)
 from backend.api.routes.tasks.post import create
+from backend.api.routes.tasks.put import update_notifications_count
 from backend.api.routes.users.get import get_user
 from backend.api.routes.users.post import login, register
 from backend.api.routes.users.put import update_tg_id
@@ -29,6 +34,7 @@ def get_api_router() -> APIRouter:
 
     tasks = APIRouter(prefix="/tasks", tags=["tasks"])
 
+    tasks.get("", summary="Получить все задачи")(get_all_for_notifications)
     tasks.post("", summary="Создать задачу", status_code=status.HTTP_201_CREATED)(
         create
     )
@@ -39,6 +45,11 @@ def get_api_router() -> APIRouter:
     tasks.get("/{user_id}/{date}", summary="Получить задачи на определённый день")(
         get_all_for_date
     )
+    tasks.put(
+        "/{task_id}/update-notifications-count",
+        summary="Обновить количество отправленных уведомлений",
+        status_code=status.HTTP_204_NO_CONTENT,
+    )(update_notifications_count)
     tasks.delete(
         "/{task_id}",
         summary="Удалить задачу",
