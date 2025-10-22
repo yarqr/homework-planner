@@ -1,7 +1,7 @@
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import Body, Path, Request
+from fastapi import Body, HTTPException, Path, Request, status
 from pydantic import BaseModel
 
 from backend.db.repositories import UserRepository
@@ -17,4 +17,6 @@ async def update_tg_id(
     request: Request,
 ) -> None:
     user_repo: UserRepository = request.app.state.user_repo
-    user_repo.update_tg_id(user_id, data.tg_id)
+    state = user_repo.update_tg_id(user_id, data.tg_id)
+    if not state:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "User not found")

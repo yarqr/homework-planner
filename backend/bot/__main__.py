@@ -9,6 +9,8 @@ from aiogram.filters import CommandObject, CommandStart
 from aiogram.types import Message
 from aiohttp import ClientSession
 
+from backend.bot.notifications import worker
+
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - [%(levelname)s] - %(message)s"
 )
@@ -35,7 +37,8 @@ async def main() -> None:
 
     dp.message.register(start, CommandStart())
 
-    await dp.start_polling(bot, api_url="http://api:8000/api")
+    api_url = "http://api:8000/api"
+    await asyncio.gather(dp.start_polling(bot, api_url=api_url), worker(bot, api_url))
 
 
 if __name__ == "__main__":

@@ -25,11 +25,12 @@ class UserRepository:
                 return user
         return None
 
-    def update_tg_id(self, user_id: UUID, tg_id: int) -> None:
+    def update_tg_id(self, user_id: UUID, tg_id: int) -> bool:
         for user in self.users:
             if user.id == user_id:
                 user.tg_id = tg_id
-                break
+                return True
+        return False
 
 
 class TaskRepository:
@@ -45,17 +46,12 @@ class TaskRepository:
                 return True
         return False
 
-    def task_exists(self, task_id: UUID) -> bool:
-        for task in self.tasks:
-            if task_id == task.id:
-                return True
-        return False
-
-    def delete(self, task_id: UUID) -> None:
+    def delete(self, task_id: UUID) -> bool:
         for task in self.tasks:
             if task.id == task_id:
                 self.tasks.remove(task)
-                break
+                return True
+        return False
 
     def get_count_for_every_month_day(
         self, user_id: UUID, month: int, year: int
@@ -84,3 +80,13 @@ class TaskRepository:
             if task.date == date_ and task.user_id == user_id:
                 tasks.append(task)
         return tasks
+
+    def get_all(self) -> list[TaskModel]:
+        return self.tasks
+
+    def update_notifications(self, task_id: UUID, count: int = 1) -> bool:
+        for task in self.tasks:
+            if task.id == task_id:
+                task.notifications += count
+                return True
+        return False

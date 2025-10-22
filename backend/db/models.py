@@ -18,6 +18,7 @@ class TaskModel:
     name: str
     date: date
     user_id: UUID
+    notifications: int = 0
 
     id: UUID = field(default_factory=uuid4)
 
