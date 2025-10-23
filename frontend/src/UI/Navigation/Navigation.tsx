@@ -1,16 +1,34 @@
-import React, {FC, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import { userData } from "../../Data/UserData";
 import axios from "axios";
 import { ApiEndpoints } from "../../Service/axiosService";
 import { telegramLink } from "../../Service/telegram";
 import "./Navigation.css"
+import { observer } from "mobx-react-lite";
 
 interface NavigationProps {
     navigateFunc: () => void;
 }
 
-export const Navigation : FC<NavigationProps> = ({ navigateFunc }) => {
+export const Navigation : FC<NavigationProps> = observer(({ navigateFunc }) => {
     let [tgWinOpened, setTgWinOpened] = useState<boolean>(false)
+
+    useEffect(() => {
+        const loadUserData = async () => {
+            try {
+                if (userData.user?.user_id) {
+                    const response = await axios.get(ApiEndpoints.auth.get(userData.user.user_id))
+                    userData.updateUserData({
+                        login: response.data.login,
+                        tg_id: response.data.tg_id
+                    })
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        loadUserData();
+    }, [])
 
     const openWindow = async() => {
         setTgWinOpened(!tgWinOpened)
@@ -43,4 +61,4 @@ export const Navigation : FC<NavigationProps> = ({ navigateFunc }) => {
             </section>}
         </>
     )
-}
+})

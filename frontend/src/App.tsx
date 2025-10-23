@@ -6,6 +6,7 @@ import { PageCalendar } from './Pages/PageCalendar';
 function App() {
   return (
     <BrowserRouter>
+    <title>homework planner</title>
       <div className="App">
         <Routes>
           <Route path="/" element={<PageAuth/>}/>

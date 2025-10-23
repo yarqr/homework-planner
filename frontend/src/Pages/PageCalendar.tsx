@@ -4,8 +4,10 @@ import { useNavigate } from "react-router";
 import { Navigation } from "../UI/Navigation/Navigation";
 import { Context } from "../Components/Context/Context";
 import { CalendarDay } from "../Components/Calendar/Types";
+import { observer } from "mobx-react-lite";
+import "../App.css"
 
-export const PageCalendar : FC = () => {
+export const PageCalendar : FC = observer(() => {
     let navigate = useNavigate()
     const [selectedDay, setSelectedDay] = useState<CalendarDay | null>(null)
     const [currentDate, setCurrentDate] = useState(new Date())
@@ -23,23 +25,24 @@ export const PageCalendar : FC = () => {
     }
 
     const handleTaskUpdate = () => {
-        // Обновляем currentDate чтобы триггернуть useEffect в Calendar
         setCurrentDate(new Date())
     }
 
     return (
         <>
             <Navigation navigateFunc={handleNavigate}/>
-            <Calendar 
-                navigateFunction={handleNavigate} 
-                onDayClick={handleDayClick}
-            />
-            <Context 
-                selectedDay={selectedDay}
-                currentDate={currentDate}
-                onClose={handleCloseContext}
-                onTaskUpdate={handleTaskUpdate}
-            />
+            <section className="main">
+                <Calendar 
+                    navigateFunction={handleNavigate} 
+                    onDayClick={handleDayClick}
+                />
+                <Context 
+                    selectedDay={selectedDay}
+                    currentDate={currentDate}
+                    onClose={handleCloseContext}
+                    onTaskUpdate={handleTaskUpdate}
+                />
+            </section>
         </>
     )
-}
+})

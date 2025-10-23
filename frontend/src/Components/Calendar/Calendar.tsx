@@ -4,7 +4,7 @@ import { SwitcherButton } from "../../UI/SwitcherButton/SwitcherButton";
 import { Props } from "../AuthWindow/AuthWindow";
 import { observer } from "mobx-react-lite";
 import { userData } from "../../Data/UserData";
-import axios from "axios";
+import axios, { Axios, AxiosError } from "axios";
 import { ApiEndpoints } from "../../Service/axiosService";
 import { CalendarDay, MonthNames, WeekDays } from "./Types";
 
@@ -55,15 +55,14 @@ export const Calendar: FC<CalendarProps> = observer(({ navigateFunction, onDayCl
           date.getFullYear(),
           date.getMonth() + 1))
         userData.user!.tasks = response.data.result
-      } catch (e) {
-        console.log(e)
+      } catch (error : AxiosError | any) {
+        window.alert(error.message)
       }
     }
     getTasksNum();
   }, [currentDate])
 
   return (
-    <section className="main">
       <section className="calendar">
         <div className="date-header">{monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}</div>
         <SwitcherButton onClick={() => setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1))} text="←" />
@@ -88,6 +87,5 @@ export const Calendar: FC<CalendarProps> = observer(({ navigateFunction, onDayCl
           ))}
         </section>
       </section>
-    </section>
   );
 });

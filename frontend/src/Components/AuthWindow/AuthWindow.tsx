@@ -1,6 +1,6 @@
 import React, {FC, useState} from "react";
 import { InputField } from "../../UI/InputField/InputField";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import "./AuthWindow.css"
 import { ApiEndpoints } from "../../Service/axiosService";
 import {userData} from "../../Data/UserData";
@@ -33,8 +33,9 @@ export const AuthWindow: FC<Props> = ({navigateFunction}) => {
         {login : username, password : password})
       userData.setUserData(response.data)
       navigateFunction();
-    } catch {
-      console.log("error")
+      console.log(response)
+    } catch (error : AxiosError | any) {
+      window.alert(error.message)
     }
   }
 

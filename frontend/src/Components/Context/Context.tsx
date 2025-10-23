@@ -3,10 +3,11 @@ import { tasksData } from "../../Data/CurrentDayData";
 import { DeleteButton } from "../../UI/DeleteButton/DeleteButton";
 import { InputField } from "../../UI/InputField/InputField";
 import { userData } from "../../Data/UserData";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ApiEndpoints } from "../../Service/axiosService";
 import { CalendarDay } from "../Calendar/Types";
 import "./Context.css"
+import { observer } from "mobx-react-lite";
 
 interface ContextProps {
   selectedDay: CalendarDay | null;
@@ -15,7 +16,7 @@ interface ContextProps {
   onTaskUpdate: () => void;
 }
 
-export const Context : FC<ContextProps> = ({ selectedDay, currentDate, onClose, onTaskUpdate }) => {
+export const Context : FC<ContextProps> = observer(({ selectedDay, currentDate, onClose, onTaskUpdate }) => {
     let [newTask, setNewTask] = useState<string>("")
 
     useEffect(() => {
@@ -43,8 +44,8 @@ export const Context : FC<ContextProps> = ({ selectedDay, currentDate, onClose, 
                 date.getFullYear(),
                 date.getMonth() + 1))
               userData.user!.tasks = response.data.result
-            } catch (e) {
-              console.log(e)
+            } catch (error : AxiosError | any) {
+              window.alert(error.message)
             }
           }
           await getTasksNum();
@@ -54,8 +55,8 @@ export const Context : FC<ContextProps> = ({ selectedDay, currentDate, onClose, 
           }
           setNewTask("")
           onTaskUpdate();
-        } catch (error) {
-          console.log(error)
+        } catch (error : AxiosError | any) {
+          window.alert(error.message)
         }
     }
 
@@ -69,8 +70,8 @@ export const Context : FC<ContextProps> = ({ selectedDay, currentDate, onClose, 
             taskDate.toISOString().split('T')[0],
           ))
           tasksData.setTasksData(response.data)
-        } catch (e) {
-          console.log(e)
+        } catch (error : AxiosError | any) {
+          console.log(error.message)
         }
     }
 
@@ -86,8 +87,8 @@ export const Context : FC<ContextProps> = ({ selectedDay, currentDate, onClose, 
                 date.getFullYear(),
                 date.getMonth() + 1))
               userData.user!.tasks = response.data.result
-            } catch (e) {
-              console.log(e)
+            } catch (error : AxiosError | any) {
+              window.alert(error.message)
             }
           }
           await getTasksNum();
@@ -96,8 +97,8 @@ export const Context : FC<ContextProps> = ({ selectedDay, currentDate, onClose, 
             openContextMenu(selectedDay)
           }
           onTaskUpdate();
-        } catch (error) {
-          console.log(error)
+        } catch (error : AxiosError | any) {
+          window.alert(error.message)
         }
     }
 
@@ -122,4 +123,4 @@ export const Context : FC<ContextProps> = ({ selectedDay, currentDate, onClose, 
             <button className="btn" onClick={onClose}>закрыть</button>
         </section>
     )
-}
+})
