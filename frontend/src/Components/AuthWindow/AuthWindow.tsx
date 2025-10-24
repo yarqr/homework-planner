@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 import "./AuthWindow.css"
 import { ApiEndpoints } from "../../Service/axiosService";
 import {userData} from "../../Data/UserData";
+import { equal } from "assert";
 
 export interface Props {
     navigateFunction: () => void
@@ -28,6 +29,14 @@ export const AuthWindow: FC<Props> = ({navigateFunction}) => {
   };
 
   const sendAuth = async() => {
+    const validation = {
+        equal: password === confirmPassword,
+        len: password.length >= 8
+      }
+    if (!validation.equal || !validation.len) {
+      window.alert("validation error")
+      return;
+    }
     try {
       let response = await axios.post(regFormOpen ? ApiEndpoints.auth.register() : ApiEndpoints.auth.login(), 
         {login : username, password : password})
